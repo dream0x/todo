@@ -20,7 +20,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function CreateTodoForm(props: { icon?: JSX.Element }) {
+export default function CreateTodoForm() {
 	const create = useTodoStore((state) => state.createTodo);
 
 	const {
@@ -30,7 +30,7 @@ export default function CreateTodoForm(props: { icon?: JSX.Element }) {
 		formState: { errors, isSubmitting },
 	} = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {},
+		defaultValues: { name: "", description: "" },
 	});
 
 	const onSubmit = (values: FormValues) => {

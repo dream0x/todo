@@ -5,7 +5,7 @@ import type {
 	UseFormHandleSubmit,
 } from "react-hook-form";
 import { Button, YStack } from "tamagui";
-import { useCloseDialog } from "./CloseDialogContext";
+import { useDialogStore } from "@/domain/common/dialog.store";
 
 const submitTextMap = { create: "作成", update: "更新", delete: "削除" };
 
@@ -17,7 +17,7 @@ export default function FormLayout<T extends FieldValues>(props: {
 	isSubmitting: boolean;
 }) {
 	const submitText = submitTextMap[props.type];
-	const closeDialog = useCloseDialog();
+	const closeDialog = useDialogStore((state) => state.closeTop);
 
 	return (
 		<YStack gap="$2.5">

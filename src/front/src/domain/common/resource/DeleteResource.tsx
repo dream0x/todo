@@ -1,6 +1,6 @@
 import { Trash } from "lucide-react-native";
 import { Button, YStack } from "tamagui";
-import { useCloseDialog } from "../CloseDialogContext";
+import { useDialogStore } from "../dialog.store";
 import ResourceFormDialog from "./ResourceFormDialog";
 import type { ResourceType } from "./resource.type";
 
@@ -20,7 +20,7 @@ function DeleteResourceContents<T extends ResourceType>(props: {
 	resource: T;
 	deleteResource: (id: string) => void;
 }) {
-	const closeDialog = useCloseDialog();
+	const closeDialog = useDialogStore((state) => state.closeTop);
 
 	return (
 		<YStack gap="$2.5">
