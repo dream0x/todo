@@ -6,41 +6,41 @@ export const useTodoStore = create<TodoState>()((set) => ({
 	todos: [
 		{
 			id: "1",
-			title: "勉強する",
+			name: "勉強する",
 			description: "Springの学習",
 			completed: false,
 		},
 		{
 			id: "2",
-			title: "運動する",
+			name: "運動する",
 			description: "筋トレする",
 			completed: false,
 		},
 		{
 			id: "3",
-			title: "掃除する",
+			name: "掃除する",
 			description: "部屋の掃除",
 			completed: true,
 		},
 	],
 
-	createTodo: ({ title, description }) =>
+	createTodo: ({ name, description }) =>
 		set((state) => ({
 			todos: [
 				...state.todos,
 				{
 					id: randomUUID(),
-					title,
+					name: name,
 					description,
 					completed: false,
 				},
 			],
 		})),
 
-	updateTodo: (id, { title, description }) =>
+	updateTodo: (id, { name, description }) =>
 		set((state) => ({
 			todos: state.todos.map((t) =>
-				t.id === id ? { ...t, title, description } : t,
+				t.id === id ? { ...t, name: name, description } : t,
 			),
 		})),
 

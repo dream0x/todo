@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormInputField from "@/domain/common/FormInputField";
 import { useTodoStore } from "@/domain/todo/todo.store";
-import FormDialog from "../common/FormDialog";
 import FormLayout from "../common/FormLayout";
 
 const formSchema = z.object({
-	title: z
+	name: z
 		.string()
 		.trim()
 		.min(1, "タイトルを入力してください")
@@ -34,41 +33,33 @@ export default function CreateTodoForm(props: { icon?: JSX.Element }) {
 		defaultValues: {},
 	});
 
+	const onSubmit = (values: FormValues) => {
+		create(values);
+		reset(values);
+	};
+
 	return (
-		<FormDialog triggerText="作成" triggerIcon={props.icon}>
-			{(closeDialog) => {
-				const onSubmit = (values: FormValues) => {
-					create(values);
-					reset(values);
-					closeDialog();
-				};
+		<FormLayout
+			type="create"
+			handleSubmit={handleSubmit}
+			onSubmit={onSubmit}
+			isSubmitting={isSubmitting}
+		>
+			<FormInputField
+				control={control}
+				name="name"
+				label="タイトル"
+				placeholder="タイトルを入力"
+				error={errors.name?.message}
+			/>
 
-				return (
-					<FormLayout
-						type="create"
-						handleSubmit={handleSubmit}
-						onSubmit={onSubmit}
-						isSubmitting={isSubmitting}
-						closeDialog={closeDialog}
-					>
-						<FormInputField
-							control={control}
-							name="title"
-							label="タイトル"
-							placeholder="タイトルを入力"
-							error={errors.title?.message}
-						/>
-
-						<FormInputField
-							control={control}
-							name="description"
-							label="説明"
-							placeholder="説明を入力"
-							error={errors.description?.message}
-						/>
-					</FormLayout>
-				);
-			}}
-		</FormDialog>
+			<FormInputField
+				control={control}
+				name="description"
+				label="説明"
+				placeholder="説明を入力"
+				error={errors.description?.message}
+			/>
+		</FormLayout>
 	);
 }

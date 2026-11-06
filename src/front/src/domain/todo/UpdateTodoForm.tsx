@@ -7,7 +7,7 @@ import FormLayout from "../common/FormLayout";
 import type { Todo } from "./todo.types";
 
 const formSchema = z.object({
-	title: z
+	name: z
 		.string()
 		.trim()
 		.min(1, "タイトルを入力してください")
@@ -20,16 +20,12 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function UpdateTodoForm(props: {
-	resource: Todo;
-	closeDialog: () => void;
-}) {
+export default function UpdateTodoForm(props: { resource: Todo }) {
 	const update = useTodoStore((state) => state.updateTodo);
 
 	const onSubmit = (values: FormValues) => {
 		update(props.resource.id, values);
 		reset(values);
-		props.closeDialog();
 	};
 
 	const {
@@ -48,14 +44,13 @@ export default function UpdateTodoForm(props: {
 			handleSubmit={handleSubmit}
 			onSubmit={onSubmit}
 			isSubmitting={isSubmitting}
-			closeDialog={props.closeDialog}
 		>
 			<FormInputField
 				control={control}
-				name="title"
+				name="name"
 				label="タイトル"
 				placeholder="タイトルを入力"
-				error={errors.title?.message}
+				error={errors.name?.message}
 			/>
 
 			<FormInputField

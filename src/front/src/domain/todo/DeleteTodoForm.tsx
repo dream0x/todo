@@ -2,8 +2,9 @@ import { Trash } from "lucide-react-native";
 import { Button, YStack } from "tamagui";
 import { useTodoStore } from "@/domain/todo/todo.store";
 import FormDialog from "../common/FormDialog";
+import type { Todo } from "./todo.types";
 
-export default function DeleteTodoForm(props: { resourceId: string }) {
+export default function DeleteTodoForm(props: { resource: Todo }) {
 	const deleteTodo = useTodoStore((state) => state.deleteTodo);
 
 	return (
@@ -14,9 +15,9 @@ export default function DeleteTodoForm(props: { resourceId: string }) {
 						{/* 送信ボタン */}
 						<Button
 							theme="inverse"
-							onPress={() => deleteTodo(props.resourceId)}
+							onPress={() => deleteTodo(props.resource.id)}
 						>
-							"削除しますか？"
+							{`${props.resource.name}を削除しますか？`}
 						</Button>
 
 						{/* キャンセルボタン */}

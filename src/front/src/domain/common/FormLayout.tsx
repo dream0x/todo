@@ -5,6 +5,7 @@ import type {
 	UseFormHandleSubmit,
 } from "react-hook-form";
 import { Button, YStack } from "tamagui";
+import { useCloseDialog } from "./CloseDialogContext";
 
 const submitTextMap = { create: "作成", update: "更新", delete: "削除" };
 
@@ -14,9 +15,9 @@ export default function FormLayout<T extends FieldValues>(props: {
 	handleSubmit: UseFormHandleSubmit<T>;
 	onSubmit: SubmitHandler<T>;
 	isSubmitting: boolean;
-	closeDialog: () => void;
 }) {
 	const submitText = submitTextMap[props.type];
+	const closeDialog = useCloseDialog();
 
 	return (
 		<YStack gap="$2.5">
@@ -26,14 +27,19 @@ export default function FormLayout<T extends FieldValues>(props: {
 			{/* 送信ボタン */}
 			<Button
 				theme="inverse"
-				onPress={() => void props.handleSubmit(props.onSubmit)()}
+				onPress={() =>
+					void props.handleSubmit(async (values) => {
+						await props.onSubmit(values);
+						closeDialog();
+					})()
+				}
 				disabled={props.isSubmitting}
 			>
 				{submitText}
 			</Button>
 
 			{/* キャンセルボタン */}
-			<Button onPress={props.closeDialog}>キャンセル</Button>
+			<Button onPress={closeDialog}>キャンセル</Button>
 		</YStack>
 	);
 }
