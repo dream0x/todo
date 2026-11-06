@@ -18,6 +18,7 @@
     "@tamagui/helpers-icon": "^3.2.2",
     "axios": "^1.21.0",
     "expo": "^57.0.1",
+    "expo-crypto": "~57.0.4",
     "expo-router": "~57.0.2",
     "expo-splash-screen": "~57.0.10",
     "expo-updates": "~57.0.26",

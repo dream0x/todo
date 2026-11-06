@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button, Text, YStack } from "tamagui";
 import { z } from "zod";
-import FormTextField from "@/domain/common/FormTextField";
+import FormInputField from "@/domain/common/FormInputField";
 import { useTodoStore } from "@/domain/todo/todo.store";
+import FormLayout from "../common/FormLayout";
 import type { Todo } from "./todo.types";
 
 const formSchema = z.object({
@@ -20,8 +20,17 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function UpdateTodoForm(props: { resource: Todo }) {
+export default function UpdateTodoForm(props: {
+	resource: Todo;
+	closeDialog: () => void;
+}) {
 	const update = useTodoStore((state) => state.updateTodo);
+
+	const onSubmit = (values: FormValues) => {
+		update(props.resource.id, values);
+		reset(values);
+		props.closeDialog();
+	};
 
 	const {
 		control,
@@ -33,14 +42,15 @@ export default function UpdateTodoForm(props: { resource: Todo }) {
 		defaultValues: props.resource,
 	});
 
-	const onSubmit = (values: FormValues) => {
-		update(props.resource.id, values);
-		reset(values);
-	};
-
 	return (
-		<YStack gap="$3" padding="$4">
-			<FormTextField
+		<FormLayout
+			type="update"
+			handleSubmit={handleSubmit}
+			onSubmit={onSubmit}
+			isSubmitting={isSubmitting}
+			closeDialog={props.closeDialog}
+		>
+			<FormInputField
 				control={control}
 				name="title"
 				label="タイトル"
@@ -48,21 +58,13 @@ export default function UpdateTodoForm(props: { resource: Todo }) {
 				error={errors.title?.message}
 			/>
 
-			<FormTextField
+			<FormInputField
 				control={control}
 				name="description"
 				label="説明"
 				placeholder="説明を入力"
 				error={errors.description?.message}
-				multiline
 			/>
-
-			<Button
-				onPress={() => void handleSubmit(onSubmit)()}
-				disabled={isSubmitting}
-			>
-				<Text>更新</Text>
-			</Button>
-		</YStack>
+		</FormLayout>
 	);
 }

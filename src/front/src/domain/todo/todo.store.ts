@@ -1,3 +1,4 @@
+import { randomUUID } from "expo-crypto";
 import { create } from "zustand";
 import type { TodoState } from "@/domain/todo/todo.types";
 
@@ -23,12 +24,12 @@ export const useTodoStore = create<TodoState>()((set) => ({
 		},
 	],
 
-	createTodo: (title, description) =>
+	createTodo: ({ title, description }) =>
 		set((state) => ({
 			todos: [
 				...state.todos,
 				{
-					id: crypto.randomUUID(),
+					id: randomUUID(),
 					title,
 					description,
 					completed: false,

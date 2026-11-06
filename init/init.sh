@@ -23,7 +23,7 @@ if [ ! -f "src/front/package.json" ]; then
 
     npx --yes create-expo-app -e with-router .
 
-    npx expo install typescript @expo/ngrok expo-updates expo-splash-screen @biomejs/biome axios zustand tamagui @tamagui/config react-hook-form zod @hookform/resolvers lucide-react-native\
+    npx expo install typescript @expo/ngrok expo-updates expo-splash-screen @biomejs/biome axios zustand tamagui @tamagui/config react-hook-form zod @hookform/resolvers lucide-react-native expo-crypto\
       @tamagui/helpers-icon react-native-svg lucide-react-native\
       @tamagui/animations-reanimated react-native-reanimated
     
