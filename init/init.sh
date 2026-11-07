@@ -37,3 +37,22 @@ else
 fi
 
 ## back
+
+if [ ! -f "src/back/build.gradle" ]; then 
+  docker compose run --rm back bash -c '
+    set -euo pipefail
+
+    curl -G https://start.spring.io/starter.tgz \
+    -d name=spring \
+    -d groupId=com \
+    -d artifactId=app \
+    -d configurationFileFormat=yaml \
+    -d type=gradle-project \
+    -d javaVersion=21 \
+    -d bootVersion=4.0 \
+    -d dependencies=devtools,lombok,springdoc-openapi,web,validation,mybatis,postgresql,data-rest-explorer \
+    | tar -xzvf -
+  '
+else
+  echo "already back project"
+fi
