@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { JSX } from "react/jsx-runtime";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormInputField from "@/domain/common/FormInputField";
