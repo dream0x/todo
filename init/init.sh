@@ -50,9 +50,11 @@ if [ ! -f "src/back/build.gradle" ]; then
     -d type=gradle-project \
     -d javaVersion=21 \
     -d bootVersion=4.0 \
-    -d dependencies=devtools,lombok,springdoc-openapi,web,validation,mybatis,postgresql,data-rest-explorer \
+    -d dependencies=devtools,lombok,springdoc-openapi,web,validation,mybatis,postgresql \
     | tar -xzvf -
   '
+  
+  cp -r init/back/* src/back/src/
 else
   echo "already back project"
 fi

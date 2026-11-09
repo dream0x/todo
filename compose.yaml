@@ -31,12 +31,30 @@ services:
     working_dir: /home/ubuntu/back
     volumes:
       - ./src/back:/home/ubuntu/back
+      - gradle_cache:/home/ubuntu/.gradle
     init: true
     command: ./gradlew bootRun
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    build: ./container/db
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 volumes:
   caddy_data:
   caddy_config:
+  gradle_cache:
 
 # docker compose run --rm front bash
 # pkill -f "npx expo start --lan -p 3000"
